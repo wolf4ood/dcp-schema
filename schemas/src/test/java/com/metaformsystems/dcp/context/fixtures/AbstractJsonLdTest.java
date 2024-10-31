@@ -88,6 +88,14 @@ public abstract class AbstractJsonLdTest {
         try {
             var stream = getClass().getResourceAsStream(jsonFile);
             var message = mapper.readValue(stream, JsonObject.class);
+            verifyRoundTrip(message, schemaFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected void verifyRoundTrip(JsonObject message, String schemaFile) {
+        try {
             var expanded = expand(JsonDocument.of(message)).options(options).get();
             var compacted = compact(JsonDocument.of(expanded), JsonDocument.of(compactionContext)).options(options).get();
 
@@ -98,7 +106,7 @@ public abstract class AbstractJsonLdTest {
             var schema = schemaFactory.getSchema(SchemaLocation.of(DCP_PREFIX + schemaFile));
             var result = schema.validate(mapper.convertValue(compacted, JsonNode.class));
             assertThat(result.isEmpty()).isTrue();
-        } catch (IOException | JsonLdError e) {
+        } catch (JsonLdError e) {
             throw new RuntimeException(e);
         }
     }

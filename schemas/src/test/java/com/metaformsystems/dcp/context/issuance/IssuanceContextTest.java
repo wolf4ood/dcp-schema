@@ -1,7 +1,12 @@
 package com.metaformsystems.dcp.context.issuance;
 
 import com.metaformsystems.dcp.context.fixtures.AbstractJsonLdTest;
+import jakarta.json.JsonObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.io.IOException;
 
 public class IssuanceContextTest extends AbstractJsonLdTest {
 
@@ -20,14 +25,30 @@ public class IssuanceContextTest extends AbstractJsonLdTest {
         verifyRoundTrip("/issuance/example/credential-object.json", "/issuance/credential-object-schema.json");
     }
 
+
+    @Test
+    void verifyIssuerMetadata() {
+        verifyRoundTrip("/issuance/example/issuer-metadata.json", "/issuance/issuer-metadata-schema.json");
+    }
+
     @Test
     void verifyCredentialStatus() {
         verifyRoundTrip("/issuance/example/credential-status.json", "/issuance/credential-status-schema.json");
     }
 
-    @Test
-    void verifyIssuerMetadata() {
-        verifyRoundTrip("/issuance/example/issuer-metadata.json", "/issuance/issuer-metadata-schema.json");
+    @ParameterizedTest
+    @ValueSource(strings = { "RECEIVED", "REJECTED", "ISSUED" })
+    void verifyCredentialStatus_withStatus(String status) throws IOException {
+        var msg = """
+                {
+                    "@context": ["https://w3id.org/dspace-dcp/v0.8"],
+                    "@type": "CredentialStatus",
+                    "requestId": "requestId",
+                    "status": "%s"
+                }""".formatted(status);
+        
+        var message = mapper.readValue(msg, JsonObject.class);
+        verifyRoundTrip(message, "/issuance/credential-status-schema.json");
     }
 
 }

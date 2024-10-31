@@ -83,7 +83,19 @@
         },
         "status": {
           "@id": "dcp:status",
-          "@type": "xsd:string"
+          "@type": "@vocab"
+        },
+        "RECEIVED": {
+          "@id": "dcp:RECEIVED",
+          "@type": "@id"
+        },
+        "REJECTED": {
+          "@id": "dcp:REJECTED",
+          "@type": "@id"
+        },
+        "ISSUED": {
+          "@id": "dcp:ISSUED",
+          "@type": "@id"
         }
       }
     },

@@ -17,6 +17,8 @@ package com.metaformsystems.dcp.schema.issuance;
 import com.metaformsystems.dcp.schema.fixtures.AbstractSchemaTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.networknt.schema.InputFormat.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +30,7 @@ public class CredentialStatusSchemaTest extends AbstractSchemaTest {
                 "@context": ["https://w3id.org/dspace-dcp/v0.8"],
                 "@type": "CredentialStatus",
                 "requestId": "requestId",
-                "status": "RECEIVED"
+                "status": "%s"
             }""";
 
     private final static String INVALID_CREDENTIAL_STATUS = """
@@ -45,9 +47,16 @@ public class CredentialStatusSchemaTest extends AbstractSchemaTest {
 
     @Test
     void verifySchema() {
-        assertThat(schema.validate(CREDENTIAL_STATUS, JSON)).isEmpty();
+        assertThat(schema.validate(CREDENTIAL_STATUS.formatted("INVALID_STATUS"), JSON)).hasSize(1);
         assertThat(schema.validate(INVALID_CREDENTIAL_STATUS, JSON)).hasSize(2);
         assertThat(schema.validate(INVALID_CREDENTIAL_STATUS_MESSAGE_NO_TYPE_AND_CONTEXT, JSON)).hasSize(2);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "RECEIVED", "REJECTED", "ISSUED" })
+    void verifySchemaStatus(String status) {
+        assertThat(schema.validate(CREDENTIAL_STATUS.formatted(status), JSON)).isEmpty();
+
     }
 
     @BeforeEach

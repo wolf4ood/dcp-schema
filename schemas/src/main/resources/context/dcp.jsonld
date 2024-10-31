@@ -85,18 +85,9 @@
           "@id": "dcp:status",
           "@type": "@vocab"
         },
-        "RECEIVED": {
-          "@id": "dcp:RECEIVED",
-          "@type": "@id"
-        },
-        "REJECTED": {
-          "@id": "dcp:REJECTED",
-          "@type": "@id"
-        },
-        "ISSUED": {
-          "@id": "dcp:ISSUED",
-          "@type": "@id"
-        }
+        "RECEIVED": "dcp:RECEIVED",
+        "REJECTED": "dcp:REJECTED",
+        "ISSUED": "dcp:ISSUED"
       }
     },
     "IssuerMetadata": {

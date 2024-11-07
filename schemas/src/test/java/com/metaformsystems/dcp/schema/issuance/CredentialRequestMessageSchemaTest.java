@@ -63,7 +63,7 @@ public class CredentialRequestMessageSchemaTest extends AbstractSchemaTest {
     void verifySchema() {
         assertThat(schema.validate(CREDENTIAL_REQUEST_MESSAGE, JSON)).isEmpty();
         assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_FORMAT, JSON)).hasSize(1);
-        assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE, JSON)).hasSize(1);
+        assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE, JSON)).hasSize(3);
         assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_CREDENTIAL_TYPE, JSON)).hasSize(1);
         assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_CONTEXT, JSON)).hasSize(1);
     }

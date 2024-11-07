@@ -5,12 +5,14 @@
     "dcp": "https://w3id.org/dspace-dcp/v0.8/",
     "cred": "https://www.w3.org/2018/credentials/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "id": "@id",
+    "type": "@type",
     "CredentialContainer": {
       "@id": "dcp:CredentialContainer",
       "@context": {
         "payload": {
           "@id": "dcp:payload",
-          "@type": "@json"
+          "@type": "xsd:string"
         }
       }
     },
@@ -120,12 +122,12 @@
         "presentation": {
           "@id": "dcp:presentation",
           "@type": "@json"
+        },
+        "presentationSubmission": {
+          "@id": "dcp:presentationSubmission",
+          "@type": "@json"
         }
       }
-    },
-    "credentialSubject": {
-      "@id": "dcp:credentialSubject",
-      "@type": "cred:credentialSubject"
     }
   }
 }

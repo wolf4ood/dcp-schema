@@ -49,7 +49,7 @@ public class CredentialStatusSchemaTest extends AbstractSchemaTest {
     void verifySchema() {
         assertThat(schema.validate(CREDENTIAL_STATUS.formatted("INVALID_STATUS"), JSON)).hasSize(1);
         assertThat(schema.validate(INVALID_CREDENTIAL_STATUS, JSON)).hasSize(2);
-        assertThat(schema.validate(INVALID_CREDENTIAL_STATUS_MESSAGE_NO_TYPE_AND_CONTEXT, JSON)).hasSize(2);
+        assertThat(schema.validate(INVALID_CREDENTIAL_STATUS_MESSAGE_NO_TYPE_AND_CONTEXT, JSON)).hasSize(4);
     }
 
     @ParameterizedTest

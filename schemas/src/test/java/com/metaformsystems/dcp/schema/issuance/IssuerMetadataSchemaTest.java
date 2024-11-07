@@ -50,7 +50,7 @@ public class IssuerMetadataSchemaTest extends AbstractSchemaTest {
     void verifySchema() {
         assertThat(schema.validate(ISSUER_METADATA.formatted(CREDENTIAL_OBJECT), JSON)).isEmpty();
         assertThat(schema.validate(INVALID_ISSUER_METADATA, JSON)).hasSize(2);
-        assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE_AND_CONTEXT.formatted(CREDENTIAL_OBJECT), JSON)).hasSize(2);
+        assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE_AND_CONTEXT.formatted(CREDENTIAL_OBJECT), JSON)).hasSize(4);
     }
 
     @BeforeEach

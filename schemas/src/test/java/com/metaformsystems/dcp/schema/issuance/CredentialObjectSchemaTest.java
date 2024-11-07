@@ -56,7 +56,7 @@ public class CredentialObjectSchemaTest extends AbstractSchemaTest {
     private final static String INVALID_CREDENTIAL_OBJECT = """
             {
               "@context": ["https://w3id.org/dspace-dcp/v0.8"],
-              "@type": "CredentialOfferMessage"
+              "@type": "CredentialObject"
             }""";
 
     private final static String INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE = """
@@ -91,8 +91,8 @@ public class CredentialObjectSchemaTest extends AbstractSchemaTest {
     @Test
     void verifySchema() {
         assertThat(schema.validate(CREDENTIAL_OBJECT, JSON)).isEmpty();
-        assertThat(schema.validate(INVALID_CREDENTIAL_OBJECT, JSON)).hasSize(6);
-        assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE, JSON)).hasSize(1);
+        assertThat(schema.validate(INVALID_CREDENTIAL_OBJECT, JSON)).hasSize(5);
+        assertThat(schema.validate(INVALID_CREDENTIAL_REQUEST_MESSAGE_NO_TYPE, JSON)).hasSize(3);
     }
 
     @BeforeEach

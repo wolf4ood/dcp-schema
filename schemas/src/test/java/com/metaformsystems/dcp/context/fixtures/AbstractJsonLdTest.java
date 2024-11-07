@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsonp.JSONPModule;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SchemaLocation;
+import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonStructure;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,7 @@ import java.util.Map;
 
 import static com.apicatalog.jsonld.JsonLd.compact;
 import static com.apicatalog.jsonld.JsonLd.expand;
+import static com.apicatalog.jsonld.lang.Keywords.CONTEXT;
 import static com.metaformsystems.dcp.schema.SchemaConstants.DCP_CONTEXT;
 import static com.metaformsystems.dcp.schema.SchemaConstants.DCP_PREFIX;
 import static com.networknt.schema.SpecVersion.VersionFlag.V202012;
@@ -96,8 +98,10 @@ public abstract class AbstractJsonLdTest {
 
     protected void verifyRoundTrip(JsonObject message, String schemaFile) {
         try {
+
+            var context = Json.createObjectBuilder().add(CONTEXT, message.get(CONTEXT)).build();
             var expanded = expand(JsonDocument.of(message)).options(options).get();
-            var compacted = compact(JsonDocument.of(expanded), JsonDocument.of(compactionContext)).options(options).get();
+            var compacted = compact(JsonDocument.of(expanded), JsonDocument.of(context)).options(options).get();
 
             var schemaFactory = JsonSchemaFactory.getInstance(V202012, builder ->
                     builder.schemaMappers(schemaMappers -> schemaMappers.mapPrefix(DCP_PREFIX, CLASSPATH_SCHEMA))
@@ -106,6 +110,7 @@ public abstract class AbstractJsonLdTest {
             var schema = schemaFactory.getSchema(SchemaLocation.of(DCP_PREFIX + schemaFile));
             var result = schema.validate(mapper.convertValue(compacted, JsonNode.class));
             assertThat(result.isEmpty()).isTrue();
+            assertThat(compacted).isEqualTo(message);
         } catch (JsonLdError e) {
             throw new RuntimeException(e);
         }

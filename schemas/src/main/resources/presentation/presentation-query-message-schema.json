@@ -15,10 +15,6 @@
         "@context": {
           "$ref": "https://w3id.org/dspace-dcp/v0.8/common/context-schema.json"
         },
-        "@type": {
-          "type": "string",
-          "const": "PresentationQueryMessage"
-        },
         "scope": {
           "type": "array",
           "items": {
@@ -26,9 +22,32 @@
           }
         }
       },
+      "oneOf": [
+        {
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "PresentationQueryMessage"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "PresentationQueryMessage"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ],
       "required": [
         "@context",
-        "@type",
         "scope"
       ]
     }

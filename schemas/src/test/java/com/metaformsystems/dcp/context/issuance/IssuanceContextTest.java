@@ -24,8 +24,7 @@ public class IssuanceContextTest extends AbstractJsonLdTest {
     void verifyCredentialObject() {
         verifyRoundTrip("/issuance/example/credential-object.json", "/issuance/credential-object-schema.json");
     }
-
-
+    
     @Test
     void verifyIssuerMetadata() {
         verifyRoundTrip("/issuance/example/issuer-metadata.json", "/issuance/issuer-metadata-schema.json");
@@ -42,11 +41,11 @@ public class IssuanceContextTest extends AbstractJsonLdTest {
         var msg = """
                 {
                     "@context": ["https://w3id.org/dspace-dcp/v0.8"],
-                    "@type": "CredentialStatus",
+                    "type": "CredentialStatus",
                     "requestId": "requestId",
                     "status": "%s"
                 }""".formatted(status);
-        
+
         var message = mapper.readValue(msg, JsonObject.class);
         verifyRoundTrip(message, "/issuance/credential-status-schema.json");
     }

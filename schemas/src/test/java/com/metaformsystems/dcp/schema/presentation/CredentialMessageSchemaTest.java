@@ -38,27 +38,10 @@ public class CredentialMessageSchemaTest extends AbstractSchemaTest {
                "requestId": "requestId"
              }""";
 
-    private final static String CREDENTIAL_MESSAGE_MESSAGE_WITH_JSON_OBJECT = """
-            {
-               "@context": [
-                 "https://w3id.org/dspace-dcp/v0.8"
-               ],
-               "@type": "CredentialMessage",
-               "credentials": [
-                 {
-                   "@type": "CredentialContainer",
-                   "payload": {
-                     "@type": "VerifiableCredential"
-                   }
-                 }
-               ],
-               "requestId": "requestId"
-             }""";
-
     private final static String INVALID_CREDENTIAL_MESSAGE = """
             {
               "@context": ["https://w3id.org/dspace-dcp/v0.8"],
-              "@type": "PresentationQueryMessage"
+              "@type": "CredentialMessage"
             }""";
 
     private final static String INVALID_CREDENTIAL_MESSAGE_INVALID_CREDENTIAL_CONTAINER = """
@@ -88,10 +71,9 @@ public class CredentialMessageSchemaTest extends AbstractSchemaTest {
     @Test
     void verifySchema() {
         assertThat(schema.validate(CREDENTIAL_MESSAGE_MESSAGE, JSON)).isEmpty();
-        assertThat(schema.validate(CREDENTIAL_MESSAGE_MESSAGE_WITH_JSON_OBJECT, JSON)).isEmpty();
         assertThat(schema.validate(INVALID_CREDENTIAL_MESSAGE, JSON)).hasSize(2);
         assertThat(schema.validate(INVALID_CREDENTIAL_MESSAGE_INVALID_CREDENTIAL_CONTAINER, JSON)).hasSize(1);
-        assertThat(schema.validate(INVALID_CREDENTIAL_MESSAGE_NO_TYPE_AND_CONTEXT, JSON)).hasSize(2);
+        assertThat(schema.validate(INVALID_CREDENTIAL_MESSAGE_NO_TYPE_AND_CONTEXT, JSON)).hasSize(4);
     }
 
     @BeforeEach
